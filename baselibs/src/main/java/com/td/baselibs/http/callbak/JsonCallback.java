@@ -37,7 +37,7 @@ import okhttp3.Response;
  * 修订历史：
  * ================================================
  */
-public  class JsonCallback<T> extends AbsCallback<T> {
+public class JsonCallback<T> extends AbsCallback<T> {
 
     private Type type;
     private Class<T> clazz;
@@ -88,7 +88,13 @@ public  class JsonCallback<T> extends AbsCallback<T> {
 
         if (type == null) {
             if (clazz == null) {
-                Type genType = OnResultCallBack.genType;
+                Type genType = null;
+                if (mOnResultListener != null) {
+                    genType = OnResultCallBack.genType;
+                } else {
+                    genType = getClass().getGenericSuperclass();
+                }
+
                 type = ((ParameterizedType) genType).getActualTypeArguments()[0];
             } else {
                 JsonConvert<T> convert = new JsonConvert<>(clazz);
@@ -102,7 +108,7 @@ public  class JsonCallback<T> extends AbsCallback<T> {
 
     @Override
     public void onSuccess(com.lzy.okgo.model.Response<T> response) {
-        if(mOnResultListener!=null){
+        if (mOnResultListener != null) {
             mOnResultListener.onSuccess(response.body());
         }
     }

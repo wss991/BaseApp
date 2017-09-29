@@ -15,6 +15,7 @@
  */
 package com.td.baselibs.http.callbak;
 
+import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
 import com.lzy.okgo.convert.Converter;
@@ -45,16 +46,20 @@ public class JsonConvert<T> implements Converter<T> {
 
     private Type type;
     private Class<T> clazz;
+    private Gson gson;
 
     public JsonConvert() {
+        gson=new Gson();
     }
 
     public JsonConvert(Type type) {
         this.type = type;
+        gson=new Gson();
     }
 
     public JsonConvert(Class<T> clazz) {
         this.clazz = clazz;
+        gson=new Gson();
     }
 
     /**
@@ -130,8 +135,15 @@ public class JsonConvert<T> implements Converter<T> {
         if (type == null) return null;
         ResponseBody body = response.body();
         if (body == null) return null;
+
         JsonReader jsonReader = new JsonReader(body.charStream());
 
+        ApiResponse httpStatus = gson.fromJson(body.string(), ApiResponse.class);
+        if (httpStatus.getData() == null) {  // 处理返回的数据为你ull
+            response.close();
+            throw new ApiException(ApiException.Code_NULL_DATA, httpStatus.getErrdesc());
+
+        }
         Type rawType = type.getRawType();                     // 泛型的实际类型
         Type typeArgument = type.getActualTypeArguments()[0]; // 泛型的参数
         if (rawType != ApiResponse.class) {

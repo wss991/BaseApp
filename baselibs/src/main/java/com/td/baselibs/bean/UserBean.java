@@ -3,7 +3,7 @@ package com.td.baselibs.bean;
 import java.io.Serializable;
 
 /**
- * 根据需要修改  字段
+ * Created by my on 2017/7/14.
  */
 
 public class UserBean implements Serializable {
@@ -34,22 +34,8 @@ public class UserBean implements Serializable {
     public int uType;   // 用户类型,0:表示普通用户,1:表示主播
     public String userId;
     public String userSig;
+    public String token;
+    public String openId;
 
-    @Override
-    public String toString() {
-        return "UserBean{" +
-                "avatar='" + avatar + '\'' +
-                ", classHour=" + classHour +
-                ", money=" + money +
-                ", nickName='" + nickName + '\'' +
-                ", password='" + password + '\'' +
-                ", payPassword='" + payPassword + '\'' +
-                ", phone='" + phone + '\'' +
-                ", profile='" + profile + '\'' +
-                ", score=" + score +
-                ", uType=" + uType +
-                ", userId='" + userId + '\'' +
-                ", userSig='" + userSig + '\'' +
-                '}';
-    }
+
 }

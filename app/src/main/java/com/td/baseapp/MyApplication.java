@@ -37,7 +37,9 @@ public class MyApplication extends Application {
         // sp 工具类
         mPreferenceUtil = new SharePreferenceUtil(this, "");
         PrefUtils.init(this);
-        initOkGo();
+       // initOkGo();
+        HttpManagerRx.init(this);
+        HttpManager.init(this);
 
     }
 

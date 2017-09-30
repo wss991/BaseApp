@@ -1,11 +1,13 @@
 package com.td.baseapp.ui;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.td.baseapp.R;
 import com.td.baseapp.bean.UserBean;
 import com.td.baseapp.db.GreenDaoManager;
@@ -19,6 +21,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 public class DBActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -41,6 +45,18 @@ public class DBActivity extends AppCompatActivity implements View.OnClickListene
         button.setOnClickListener(this);
         button2.setOnClickListener(this);
         button3.setOnClickListener(this);
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions .request(Manifest.permission.CAMERA)
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(@NonNull Boolean granted) throws Exception {
+                        if (granted) { // Always true pre-M
+                            Log.e("===","授权成功");
+                        } else {
+                            Log.e("===","授权失败");
+                        }
+                    }
+                });
 
     }
 

@@ -8,6 +8,7 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
+import com.td.baseapp.db.GreenDaoManager;
 import com.td.baselibs.utils.PrefUtils;
 import com.td.baselibs.utils.SharePreferenceUtil;
 
@@ -49,6 +50,7 @@ public class MyApplication extends Application {
         HttpManagerRx.init(this);
         HttpManager.init(this);
 
+        GreenDaoManager.getInstance().init(this);
         if (getApplicationInfo().packageName.equals(getCurProcessName(getApplicationContext()))) {
 
 
@@ -65,6 +67,7 @@ public class MyApplication extends Application {
             RongIM.init(this);
 
             Thread.setDefaultUncaughtExceptionHandler(new RongExceptionHandler(this));
+
 
 
         }

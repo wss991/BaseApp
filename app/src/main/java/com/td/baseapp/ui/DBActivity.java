@@ -17,6 +17,7 @@ import com.td.baseapp.gen.UserBeanDao;
 import org.greenrobot.greendao.query.Query;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -65,19 +66,21 @@ public class DBActivity extends AppCompatActivity implements View.OnClickListene
         switch (v.getId()) {
             case R.id.button:
                 userBeens = new ArrayList<>();
-                userBeens.add(new UserBean());
-                userBeens.add(new UserBean());
-                userBeens.add(new UserBean());
+                userBeens.add(new UserBean("12","lalal"));
+                userBeens.add(new UserBean("13","lalal2"));
+                userBeens.add(new UserBean("12","lalal3"));
 
                 saveNLists(userBeens);
                 break;
             case R.id.button2:
-                // userBeanDao.loadAll();
-                // Log.e("===", userBeanDao.loadAll().toArray().length + "  ");
-                querydataByRaw();
+              //  userBeanDao.loadAll();
+              //  Log.e("===", Arrays.toString(userBeanDao.loadAll().toArray()) + "  ");
+               // querydataByRaw();
+                userBeanDao.queryBuilder().where(UserBeanDao.Properties.UserId.eq("12")).unique();
+                Log.e("===",userBeanDao.queryBuilder().where(UserBeanDao.Properties.UserId.eq("12"),UserBeanDao.Properties.UserName.eq("lalal3")).unique().toString() + "  ");
                 break;
             case R.id.button3:
-                // /userBeanDao.queryRaw()
+              userBeanDao.deleteByKeyInTx("13");
                 break;
         }
     }
@@ -106,7 +109,7 @@ public class DBActivity extends AppCompatActivity implements View.OnClickListene
     private void querydataBy() {////查询条件
         Query<UserBean> nQuery = userBeanDao.queryBuilder()
 //                .where(UserDao.Properties.Name.eq("user1"))//.where(UserDao.Properties.Id.notEq(999))
-                .orderAsc(UserBeanDao.Properties.Id)//.limit(5)//orderDesc
+                .orderAsc(UserBeanDao.Properties.UserId)//.limit(5)//orderDesc
                 .build();
         List<UserBean> users = nQuery.list();
         Log.i("tag", "当前数量：" + users.size());

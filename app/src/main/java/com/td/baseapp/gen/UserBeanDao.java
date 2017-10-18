@@ -15,7 +15,7 @@ import com.td.baseapp.bean.UserBean;
 /** 
  * DAO for table "USER_BEAN".
 */
-public class UserBeanDao extends AbstractDao<UserBean, Long> {
+public class UserBeanDao extends AbstractDao<UserBean, String> {
 
     public static final String TABLENAME = "USER_BEAN";
 
@@ -24,7 +24,7 @@ public class UserBeanDao extends AbstractDao<UserBean, Long> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property Id = new Property(0, Long.class, "id", true, "_id");
+        public final static Property UserId = new Property(0, String.class, "userId", true, "USER_ID");
         public final static Property UserName = new Property(1, String.class, "userName", false, "USER_NAME");
     }
 
@@ -41,7 +41,7 @@ public class UserBeanDao extends AbstractDao<UserBean, Long> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"USER_BEAN\" (" + //
-                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
+                "\"USER_ID\" TEXT PRIMARY KEY NOT NULL ," + // 0: userId
                 "\"USER_NAME\" TEXT);"); // 1: userName
     }
 
@@ -55,9 +55,9 @@ public class UserBeanDao extends AbstractDao<UserBean, Long> {
     protected final void bindValues(DatabaseStatement stmt, UserBean entity) {
         stmt.clearBindings();
  
-        Long id = entity.getId();
-        if (id != null) {
-            stmt.bindLong(1, id);
+        String userId = entity.getUserId();
+        if (userId != null) {
+            stmt.bindString(1, userId);
         }
  
         String userName = entity.getUserName();
@@ -70,9 +70,9 @@ public class UserBeanDao extends AbstractDao<UserBean, Long> {
     protected final void bindValues(SQLiteStatement stmt, UserBean entity) {
         stmt.clearBindings();
  
-        Long id = entity.getId();
-        if (id != null) {
-            stmt.bindLong(1, id);
+        String userId = entity.getUserId();
+        if (userId != null) {
+            stmt.bindString(1, userId);
         }
  
         String userName = entity.getUserName();
@@ -82,14 +82,14 @@ public class UserBeanDao extends AbstractDao<UserBean, Long> {
     }
 
     @Override
-    public Long readKey(Cursor cursor, int offset) {
-        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
+    public String readKey(Cursor cursor, int offset) {
+        return cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0);
     }    
 
     @Override
     public UserBean readEntity(Cursor cursor, int offset) {
         UserBean entity = new UserBean( //
-            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
+            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // userId
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1) // userName
         );
         return entity;
@@ -97,20 +97,19 @@ public class UserBeanDao extends AbstractDao<UserBean, Long> {
      
     @Override
     public void readEntity(Cursor cursor, UserBean entity, int offset) {
-        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
+        entity.setUserId(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
         entity.setUserName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
      }
     
     @Override
-    protected final Long updateKeyAfterInsert(UserBean entity, long rowId) {
-        entity.setId(rowId);
-        return rowId;
+    protected final String updateKeyAfterInsert(UserBean entity, long rowId) {
+        return entity.getUserId();
     }
     
     @Override
-    public Long getKey(UserBean entity) {
+    public String getKey(UserBean entity) {
         if(entity != null) {
-            return entity.getId();
+            return entity.getUserId();
         } else {
             return null;
         }
@@ -118,7 +117,7 @@ public class UserBeanDao extends AbstractDao<UserBean, Long> {
 
     @Override
     public boolean hasKey(UserBean entity) {
-        return entity.getId() != null;
+        return entity.getUserId() != null;
     }
 
     @Override

@@ -10,13 +10,14 @@ import org.greenrobot.greendao.annotation.Id;
 
 @Entity
 public class UserBean {
-    @Id(autoincrement = true)
-    public Long id;
+
+    @Id
+    public String userId;
     public String userName;
 
-    @Generated(hash = 1260553639)
-    public UserBean(Long id, String userName) {
-        this.id = id;
+    @Generated(hash = 288358919)
+    public UserBean(String userId, String userName) {
+        this.userId = userId;
         this.userName = userName;
     }
 
@@ -32,11 +33,21 @@ public class UserBean {
         this.userName = userName;
     }
 
-    public Long getId() {
-        return this.id;
+
+
+    @Override
+    public String toString() {
+        return "UserBean{" +
+                "id=" + userId +
+                ", userName='" + userName + '\'' +
+                '}';
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getUserId() {
+        return this.userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

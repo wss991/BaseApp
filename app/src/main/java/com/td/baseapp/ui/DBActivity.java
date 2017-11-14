@@ -74,13 +74,13 @@ public class DBActivity extends AppCompatActivity implements View.OnClickListene
                 break;
             case R.id.button2:
               //  userBeanDao.loadAll();
-              //  Log.e("===", Arrays.toString(userBeanDao.loadAll().toArray()) + "  ");
+                Log.e("===", Arrays.toString(userBeanDao.loadAll().toArray()) + "  ");
                // querydataByRaw();
                 userBeanDao.queryBuilder().where(UserBeanDao.Properties.UserId.eq("12")).unique();
                 Log.e("===",userBeanDao.queryBuilder().where(UserBeanDao.Properties.UserId.eq("12"),UserBeanDao.Properties.UserName.eq("lalal3")).unique().toString() + "  ");
                 break;
             case R.id.button3:
-              userBeanDao.deleteByKeyInTx("13");
+             // userBeanDao.de
                 break;
         }
     }
